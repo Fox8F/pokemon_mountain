@@ -27500,6 +27500,24 @@ const u32 gObjectEventPic_Substitute[] = INCGFX_COMP("graphics/pokemon/question_
 #endif //OW_POKEMON_OBJECT_EVENTS
 #endif //P_FAMILY_PECHARUNT
 
+#if P_FAMILY_CANDRIS 
+    const u32 gMonFrontPic_Candris[] = INCGFX_U32("graphics/pokemon/candris/anim_front.png", ".4bpp.smol");
+    const u16 gMonPalette_Candris[] = INCGFX_U16("graphics/pokemon/candris/normal.pal", ".gbapal");
+    const u32 gMonBackPic_Candris[] = INCGFX_U32("graphics/pokemon/candris/back.png", ".4bpp.smol");
+    const u16 gMonShinyPalette_Candris[] = INCGFX_U16("graphics/pokemon/candris/shiny.pal", ".gbapal");
+    const u8 gMonIcon_Candris[] = INCGFX_U8("graphics/pokemon/candris/icon.png", ".4bpp");
+#if P_FOOTPRINTS
+    const u8 gMonFootprint_Candris[] = INCGFX_U8("graphics/pokemon/candris/footprint.png", ".1bpp");
+#endif //P_FOOTPRINTS
+#if OW_POKEMON_OBJECT_EVENTS
+    const u32 gObjectEventPic_Candris[] = INCGFX_COMP("graphics/pokemon/candris/overworld.png", ".4bpp", "-mwidth 4 -mheight 4");
+#if OW_PKMN_OBJECTS_SHARE_PALETTES == FALSE
+    const u16 gOverworldPalette_Candris[] = INCGFX_U16("graphics/pokemon/candris/overworld_normal.pal", ".gbapal");
+    const u16 gShinyOverworldPalette_Candris[] = INCGFX_U16("graphics/pokemon/candris/overworld_shiny.pal", ".gbapal");
+#endif //OW_PKMN_OBJECTS_SHARE_PALETTES
+#endif //OW_POKEMON_OBJECT_EVENTS
+#endif //P_FAMILY_CANDRIS       
+
     const u32 gMonFrontPic_Egg[] = INCGFX_U32("graphics/pokemon/egg/anim_front.png", ".4bpp.smol");
     const u16 gMonPalette_Egg[] = INCGFX_U16("graphics/pokemon/egg/normal.pal", ".gbapal");
     const u8 gMonIcon_Egg[] = INCGFX_U8("graphics/pokemon/egg/icon.png", ".4bpp");

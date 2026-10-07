@@ -8738,6 +8738,14 @@ Cry_Pecharunt::
 	.incbin "sound/direct_sound_samples/cries/pecharunt.bin"
 .endif
 .endif @ P_FAMILY_PECHARUNT
+
+.if P_FAMILY_CANDRIS == TRUE
+	.align 2
+Cry_Candris::
+.if TESTING == FALSE
+	.incbin "sound/direct_sound_samples/cries/candris.bin"
+.endif
+.endif @ P_FAMILY_CANDRIS
 .endif @ P_CRIES_ENABLED
 
 .if TESTING == TRUE
