@@ -1183,6 +1183,7 @@ static const struct SearchOptionText sDexModeOptions[] =
 {
     [DEX_MODE_HOENN]    = {COMPOUND_STRING("HOENN region's POKéDEX"),   COMPOUND_STRING("HOENN DEX")},
     [DEX_MODE_NATIONAL] = {COMPOUND_STRING("National edition POKéDEX"), COMPOUND_STRING("NATIONAL DEX")},
+    [DEX_MODE_SLAVORA]  = {COMPOUND_STRING("SLAVORA region's POKéDEX"), COMPOUND_STRING("SLAVORA DEX")},
     {},
 };
 
@@ -1252,7 +1253,7 @@ static const struct SearchOptionText sDexSearchTypeOptions[] =
     {},
 };
 
-static const u8 sPokedexModes[] = {DEX_MODE_HOENN, DEX_MODE_NATIONAL};
+static const u8 sPokedexModes[] = {DEX_MODE_HOENN, DEX_MODE_NATIONAL, DEX_MODE_SLAVORA};
 static const u8 sOrderOptions[] =
 {
     ORDER_NUMERICAL,
@@ -1360,7 +1361,7 @@ void ResetPokedex(void)
 
     sLastSelectedPokemon = 0;
     sPokeBallRotation = POKEBALL_ROTATION_TOP;
-    gSaveBlock2Ptr->pokedex.mode = DEX_MODE_HOENN;
+    gSaveBlock2Ptr->pokedex.mode = DEX_MODE_SLAVORA;
     gSaveBlock2Ptr->pokedex.order = 0;
     gSaveBlock2Ptr->pokedex.nationalMagic = 0;
     gSaveBlock2Ptr->pokedex.unknown2 = 0;
@@ -1404,8 +1405,8 @@ void ResetPokedexView(struct PokedexView *pokedexView)
     pokedexView->pokemonListCount = 0;
     pokedexView->selectedPokemon = 0;
     pokedexView->selectedPokemonBackup = 0;
-    pokedexView->dexMode = DEX_MODE_HOENN;
-    pokedexView->dexModeBackup = DEX_MODE_HOENN;
+    pokedexView->dexMode = DEX_MODE_SLAVORA;
+    pokedexView->dexModeBackup = DEX_MODE_SLAVORA;
     pokedexView->dexOrder = ORDER_NUMERICAL;
     pokedexView->dexOrderBackup = ORDER_NUMERICAL;
     pokedexView->seenCount = 0;
@@ -1469,7 +1470,7 @@ void CB2_OpenPokedex(void)
         CreateTask(Task_OpenPokedexMainPage, 0);
         sPokedexView->dexMode = gSaveBlock2Ptr->pokedex.mode;
         if (!IsNationalPokedexEnabled())
-            sPokedexView->dexMode = DEX_MODE_HOENN;
+            sPokedexView->dexMode = DEX_MODE_SLAVORA;
         sPokedexView->dexOrder = gSaveBlock2Ptr->pokedex.order;
         sPokedexView->selectedPokemon = sLastSelectedPokemon;
         sPokedexView->pokeBallRotation = sPokeBallRotation;
@@ -1701,7 +1702,7 @@ static void Task_WaitForExitSearch(u8 taskId)
             sPokedexView->selectedPokemon = sPokedexView->selectedPokemonBackup;
             sPokedexView->dexMode = sPokedexView->dexModeBackup;
             if (!IsNationalPokedexEnabled())
-                sPokedexView->dexMode = DEX_MODE_HOENN;
+                sPokedexView->dexMode = DEX_MODE_SLAVORA;
             sPokedexView->dexOrder = sPokedexView->dexOrderBackup;
             gTasks[taskId].func = Task_OpenPokedexMainPage;
         }
@@ -1714,7 +1715,7 @@ static void Task_ClosePokedex(u8 taskId)
     {
         gSaveBlock2Ptr->pokedex.mode = sPokedexView->dexMode;
         if (!IsNationalPokedexEnabled())
-            gSaveBlock2Ptr->pokedex.mode = DEX_MODE_HOENN;
+            gSaveBlock2Ptr->pokedex.mode = DEX_MODE_SLAVORA;
         gSaveBlock2Ptr->pokedex.order = sPokedexView->dexOrder;
         ClearMonSprites();
         FreeWindowAndBgBuffers();
@@ -1905,7 +1906,7 @@ static void Task_ReturnToPokedexFromSearchResults(u8 taskId)
         sPokedexView->selectedPokemon = sPokedexView->selectedPokemonBackup;
         sPokedexView->dexMode = sPokedexView->dexModeBackup;
         if (!IsNationalPokedexEnabled())
-            sPokedexView->dexMode = DEX_MODE_HOENN;
+            sPokedexView->dexMode = DEX_MODE_SLAVORA;
         sPokedexView->dexOrder = sPokedexView->dexOrderBackup;
         gTasks[taskId].func = Task_OpenPokedexMainPage;
         ClearMonSprites();
@@ -1921,7 +1922,7 @@ static void Task_ClosePokedexFromSearchResultsStartMenu(u8 taskId)
         sPokedexView->selectedPokemon = sPokedexView->selectedPokemonBackup;
         sPokedexView->dexMode = sPokedexView->dexModeBackup;
         if (!IsNationalPokedexEnabled())
-            sPokedexView->dexMode = DEX_MODE_HOENN;
+            sPokedexView->dexMode = DEX_MODE_SLAVORA;
         sPokedexView->dexOrder = sPokedexView->dexOrderBackup;
         gTasks[taskId].func = Task_ClosePokedex;
     }
@@ -2090,6 +2091,10 @@ void CreatePokedexList(u8 dexMode, u8 order)
     switch (dexMode)
     {
     default:
+    case DEX_MODE_SLAVORA:
+        temp_dexCount = SLAVORA_DEX_COUNT - 1;
+        temp_isHoennDex = FALSE;
+        break;
     case DEX_MODE_HOENN:
         temp_dexCount = REGIONAL_DEX_COUNT;
         temp_isHoennDex = TRUE;
@@ -2111,33 +2116,37 @@ void CreatePokedexList(u8 dexMode, u8 order)
     switch (order)
     {
     case ORDER_NUMERICAL:
-        for (i = 0, r5 = 0, r10 = 0; i < temp_dexCount; i++)
+    for (i = 0, r5 = 0, r10 = 0; i < temp_dexCount; i++)
+    {
+        if (dexMode == DEX_MODE_SLAVORA)
         {
-            if (temp_isHoennDex)
-            {
-                temp_dexNum = RegionalToNationalOrder(i + 1);
-            }
-            else
-            {
-                temp_dexNum = i + 1;
-                if (GetSetPokedexFlag(temp_dexNum, FLAG_GET_SEEN))
-                    r10 = 1;
-            }
-
-            if (ShouldSkipPokedexListEntry(temp_dexNum))
-                continue;
-
-            if (r10 || temp_isHoennDex)
-            {
-                sPokedexView->pokedexList[r5].dexNum = temp_dexNum;
-                sPokedexView->pokedexList[r5].seen = GetSetPokedexFlag(temp_dexNum, FLAG_GET_SEEN);
-                sPokedexView->pokedexList[r5].owned = GetSetPokedexFlag(temp_dexNum, FLAG_GET_CAUGHT);
-                if (sPokedexView->pokedexList[r5].seen)
-                    sPokedexView->pokemonListCount = r5 + 1;
-                r5++;
-            }
+            temp_dexNum = SlavoraToNationalOrder(i + 1);
         }
-        break;
+        else if (temp_isHoennDex)
+        {
+            temp_dexNum = RegionalToNationalOrder(i + 1);
+        }
+        else
+        {
+            temp_dexNum = i + 1;
+            if (GetSetPokedexFlag(temp_dexNum, FLAG_GET_SEEN))
+                r10 = 1;
+        }
+
+        if (ShouldSkipPokedexListEntry(temp_dexNum))
+            continue;
+
+        if (r10 || temp_isHoennDex || dexMode == DEX_MODE_SLAVORA)
+        {
+            sPokedexView->pokedexList[r5].dexNum = temp_dexNum;
+            sPokedexView->pokedexList[r5].seen = GetSetPokedexFlag(temp_dexNum, FLAG_GET_SEEN);
+            sPokedexView->pokedexList[r5].owned = GetSetPokedexFlag(temp_dexNum, FLAG_GET_CAUGHT);
+            if (sPokedexView->pokedexList[r5].seen)
+                sPokedexView->pokemonListCount = r5 + 1;
+            r5++;
+        }
+    }
+    break;
     case ORDER_ALPHABETICAL:
         for (i = 0; i < ARRAY_COUNT(gPokedexOrder_Alphabetical); i++)
         {
@@ -2338,10 +2347,12 @@ void CreateMonDexNum(u16 entryNum, u8 left, u8 top, u16 unused)
         offset = 0;
 
     dexNum = sPokedexView->pokedexList[entryNum].dexNum;
-    if (sPokedexView->dexMode == DEX_MODE_HOENN)
+    if (sPokedexView->dexMode == DEX_MODE_SLAVORA)
+        dexNum = NationalToSlavoraOrder(dexNum);
+    else if (sPokedexView->dexMode == DEX_MODE_HOENN)
         dexNum = NationalToRegionalOrder(dexNum);
     memcpy(text, sText_No0000, ARRAY_COUNT(sText_No0000));
-    if (NATIONAL_DEX_COUNT > 999 && sPokedexView->dexMode != DEX_MODE_HOENN)
+    if (NATIONAL_DEX_COUNT > 999 && sPokedexView->dexMode != DEX_MODE_SLAVORA)
     {
         text[offset] = CHAR_0 + dexNum / 1000;
         offset++;
@@ -3252,7 +3263,7 @@ void Task_LoadInfoScreen(u8 taskId)
         gMain.state++;
         break;
     case 4:
-        PrintMonInfo(sPokedexListItem->dexNum, sPokedexView->dexMode == DEX_MODE_HOENN ? FALSE : TRUE, sPokedexListItem->owned, 0);
+        PrintMonInfo(sPokedexListItem->dexNum, sPokedexView->dexMode == DEX_MODE_NATIONAL ? TRUE : FALSE, sPokedexListItem->owned, 0);
         if (!sPokedexListItem->owned)
             LoadPalette(&gPlttBufferUnfaded[BG_PLTT_ID(0) + 1], BG_PLTT_ID(3) + 1, PLTT_SIZEOF(16 - 1));
         CopyWindowToVram(WIN_INFO, COPYWIN_FULL);
@@ -4169,9 +4180,16 @@ static void PrintMonInfo(u32 num, u32 value, u32 owned, u32 newEntry)
     if (newEntry)
         PrintInfoScreenText(sText_PokedexRegistration, GetStringCenterAlignXOffset(FONT_NORMAL, sText_PokedexRegistration, DISPLAY_WIDTH), 0);
     if (value == 0)
-        value = NationalToRegionalOrder(num);
+    {
+    if (sPokedexView->dexMode == DEX_MODE_SLAVORA)
+        value = NationalToSlavoraOrder(num);
     else
+        value = NationalToRegionalOrder(num);
+    }
+    else
+    {
         value = num;
+    }
 
     ConvertIntToDecimalStringN(StringCopy(str, gText_NumberClear01), value, STR_CONV_MODE_LEADING_ZEROS, digitCount);
     PrintInfoScreenText(str, 0x60, 0x19);
@@ -4538,9 +4556,30 @@ u16 GetNationalPokedexCount(u8 caseID)
 
 u32 GetRegionalPokedexCount(u8 caseID)
 {
-    if (IS_FRLG)
-        return GetKantoPokedexCount(caseID);
-    return GetHoennPokedexCount(caseID);
+    return GetSlavoraPokedexCount(caseID);
+}
+
+u16 GetSlavoraPokedexCount(u8 caseID)
+{
+    u16 count = 0;
+    u16 i;
+
+    for (i = 0; i < SLAVORA_DEX_COUNT - 1; i++)
+    {
+        switch (caseID)
+        {
+        case FLAG_GET_SEEN:
+            if (GetSetPokedexFlag(SlavoraToNationalOrder(i + 1), FLAG_GET_SEEN))
+                count++;
+            break;
+        case FLAG_GET_CAUGHT:
+            if (GetSetPokedexFlag(SlavoraToNationalOrder(i + 1), FLAG_GET_CAUGHT))
+                count++;
+            break;
+        }
+    }
+
+    return count;
 }
 
 u16 GetHoennPokedexCount(u8 caseID)
@@ -5264,7 +5303,7 @@ static void Task_HandleSearchMenuInput(u8 taskId)
                 sPokedexView->selectedPokemonBackup = 0;
                 gSaveBlock2Ptr->pokedex.mode = GetSearchModeSelection(taskId, SEARCH_MODE);
                 if (!IsNationalPokedexEnabled())
-                    gSaveBlock2Ptr->pokedex.mode = DEX_MODE_HOENN;
+                    gSaveBlock2Ptr->pokedex.mode = DEX_MODE_SLAVORA;
                 sPokedexView->dexModeBackup = gSaveBlock2Ptr->pokedex.mode;
                 gSaveBlock2Ptr->pokedex.order = GetSearchModeSelection(taskId, SEARCH_ORDER);
                 sPokedexView->dexOrderBackup = gSaveBlock2Ptr->pokedex.order;
@@ -5766,6 +5805,9 @@ void SetDefaultSearchModeAndOrder(u8 taskId)
     switch (sPokedexView->dexModeBackup)
     {
     default:
+    case DEX_MODE_SLAVORA:
+        selected = DEX_MODE_SLAVORA;
+        break;
     case DEX_MODE_HOENN:
         selected = DEX_MODE_HOENN;
         break;

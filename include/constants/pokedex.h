@@ -1569,7 +1569,8 @@ enum SlavoraDexOrder
 enum
 {
     DEX_MODE_HOENN,
-    DEX_MODE_NATIONAL
+    DEX_MODE_NATIONAL,
+    DEX_MODE_SLAVORA
 };
 
 enum

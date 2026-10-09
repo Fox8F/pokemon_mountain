@@ -24,26 +24,31 @@
     .height = 5,
     .weight = 80,
     .description = COMPOUND_STRING(
-        "A small kid-goat that carries candles on its horns.\n"
-        "The flames on its head never go out. In ancient\n"
-        "temples, Candris were worshipped as guides of souls."),
-    .pokemonScale = 256,
-    .pokemonOffset = 0,
+        "  A goat that carries candles on its horns.\n"
+        "  The flames on its head never go out.\n"
+        "  In ancient temples, Candris\n"
+        "  were worshipped as guides of souls."),
+    .pokemonScale = 358,
+    .pokemonOffset = 3,
     .trainerScale = 256,
-    .trainerOffset = 0,
+    .trainerOffset = 4,
     .frontPic = gMonFrontPic_Candris,
     .frontPicSize = MON_COORDS_SIZE(64, 64),
     .frontPicYOffset = 0,
-    .frontAnimFrames = sAnims_GeneralFrame0,
+    .frontAnimFrames = ANIM_FRAMES(
+        ANIMCMD_FRAME(1, 48),
+        ANIMCMD_FRAME(0, 1),
+    ),
     .frontAnimId = ANIM_V_JUMPS_SMALL,
     .backPic = gMonBackPic_Candris,
     .backPicSize = MON_COORDS_SIZE(64, 64),
-    .backPicYOffset = 7,
-    .backAnimId = BACK_ANIM_H_SHAKE,
+    .backPicYOffset = 8,
+    .backAnimId = BACK_ANIM_CONCAVE_ARC_SMALL,
     .palette = gMonPalette_Candris,
     .shinyPalette = gMonShinyPalette_Candris,
     .iconSprite = gMonIcon_Candris,
     .iconPalIndex = 3,
+    SHADOW(2, 7, SHADOW_SIZE_M)
     FOOTPRINT(Candris)
     .levelUpLearnset = sCandrisLevelUpLearnset,
     .teachableLearnset = sNoneTeachableLearnset,

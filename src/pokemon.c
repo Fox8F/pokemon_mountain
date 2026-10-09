@@ -144,6 +144,13 @@ static const enum NationalDexOrder sHoennToNationalOrder[HOENN_DEX_COUNT - 1] =
     FOREACH_SPECIES_IN_HOENN_DEX_ORDER(HOENN_TO_NATIONAL)
 };
 
+static const enum NationalDexOrder sSlavoraToNationalOrder[SLAVORA_DEX_COUNT - 1] =
+{
+    #define SLAVORA_ORDER_ENTRY(name) NATIONAL_DEX_##name,
+    FOREACH_SPECIES_IN_SLAVORA_DEX_ORDER(SLAVORA_ORDER_ENTRY)
+    #undef SLAVORA_ORDER_ENTRY
+};
+
 // In Battle Palace, moves are chosen based on the Pokémon's nature rather than by the player
 // Moves are grouped into "Attack", "Defense", or "Support" (see PALACE_MOVE_GROUP_*)
 // Each nature has a certain percent chance of selecting a move from a particular group
@@ -4683,6 +4690,23 @@ enum HoennDexOrder NationalToHoennOrder(enum NationalDexOrder nationalNum)
     return hoennNum + 1;
 }
 
+enum SlavoraDexOrder NationalToSlavoraOrder(enum NationalDexOrder nationalNum)
+{
+    u16 slavoraNum;
+
+    if (!nationalNum)
+        return SLAVORA_DEX_NONE;
+
+    slavoraNum = 0;
+    while (slavoraNum < (SLAVORA_DEX_COUNT - 1) && sSlavoraToNationalOrder[slavoraNum] != nationalNum)
+        slavoraNum++;
+
+    if (slavoraNum >= SLAVORA_DEX_COUNT - 1)
+        return SLAVORA_DEX_NONE;
+
+    return slavoraNum + 1;
+}
+
 enum NationalDexOrder SpeciesToNationalPokedexNum(enum Species species)
 {
     species = SanitizeSpeciesId(species);
@@ -4734,6 +4758,13 @@ enum NationalDexOrder HoennToNationalOrder(enum HoennDexOrder hoennNum)
         return 0;
 
     return sHoennToNationalOrder[hoennNum - 1];
+}
+
+enum NationalDexOrder SlavoraToNationalOrder(enum SlavoraDexOrder slavoraNum)
+{
+    if (slavoraNum == 0 || slavoraNum > SLAVORA_DEX_COUNT - 1)
+        return NATIONAL_DEX_NONE;
+    return sSlavoraToNationalOrder[slavoraNum - 1];
 }
 
 void EvolutionRenameMon(struct Pokemon *mon, enum Species oldSpecies, enum Species newSpecies)
