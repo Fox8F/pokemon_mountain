@@ -2557,6 +2557,8 @@ enum PokemonCry
 #endif //P_FAMILY_PECHARUNT
 #if P_FAMILY_CANDRIS
     CRY_CANDRIS,
+    CRY_OSSPYRE,
+    CRY_MALEVON,
 #endif //P_FAMILY_CANDRIS
     CRY_COUNT,
 };

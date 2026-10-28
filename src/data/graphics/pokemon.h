@@ -27516,7 +27516,39 @@ const u32 gObjectEventPic_Substitute[] = INCGFX_COMP("graphics/pokemon/question_
     const u16 gShinyOverworldPalette_Candris[] = INCGFX_U16("graphics/pokemon/candris/overworld_shiny.pal", ".gbapal");
 #endif //OW_PKMN_OBJECTS_SHARE_PALETTES
 #endif //OW_POKEMON_OBJECT_EVENTS
-#endif //P_FAMILY_CANDRIS       
+
+    const u32 gMonFrontPic_Osspyre[] = INCGFX_U32("graphics/pokemon/osspyre/anim_front.png", ".4bpp.smol");
+    const u16 gMonPalette_Osspyre[] = INCGFX_U16("graphics/pokemon/osspyre/normal.pal", ".gbapal");
+    const u32 gMonBackPic_Osspyre[] = INCGFX_U32("graphics/pokemon/osspyre/back.png", ".4bpp.smol");
+    const u16 gMonShinyPalette_Osspyre[] = INCGFX_U16("graphics/pokemon/osspyre/shiny.pal", ".gbapal");
+    const u8 gMonIcon_Osspyre[] = INCGFX_U8("graphics/pokemon/osspyre/icon.png", ".4bpp");
+#if P_FOOTPRINTS
+    const u8 gMonFootprint_Osspyre[] = INCGFX_U8("graphics/pokemon/osspyre/footprint.png", ".1bpp");
+#endif //P_FOOTPRINTS
+#if OW_POKEMON_OBJECT_EVENTS
+    const u32 gObjectEventPic_Osspyre[] = INCGFX_COMP("graphics/pokemon/osspyre/overworld.png", ".4bpp", "-mwidth 4 -mheight 4");
+#if OW_PKMN_OBJECTS_SHARE_PALETTES == FALSE
+    const u16 gOverworldPalette_Osspyre[] = INCGFX_U16("graphics/pokemon/osspyre/overworld_normal.pal", ".gbapal");
+    const u16 gShinyOverworldPalette_Osspyre[] = INCGFX_U16("graphics/pokemon/osspyre/overworld_shiny.pal", ".gbapal");
+#endif //OW_PKMN_OBJECTS_SHARE_PALETTES
+#endif //OW_POKEMON_OBJECT_EVENTS
+
+    const u32 gMonFrontPic_Malevon[] = INCGFX_U32("graphics/pokemon/malevon/anim_front.png", ".4bpp.smol");
+    const u16 gMonPalette_Malevon[] = INCGFX_U16("graphics/pokemon/malevon/normal.pal", ".gbapal");
+    const u32 gMonBackPic_Malevon[] = INCGFX_U32("graphics/pokemon/malevon/back.png", ".4bpp.smol");
+    const u16 gMonShinyPalette_Malevon[] = INCGFX_U16("graphics/pokemon/malevon/shiny.pal", ".gbapal");
+    const u8 gMonIcon_Malevon[] = INCGFX_U8("graphics/pokemon/malevon/icon.png", ".4bpp");
+#if P_FOOTPRINTS
+    const u8 gMonFootprint_Malevon[] = INCGFX_U8("graphics/pokemon/malevon/footprint.png", ".1bpp");
+#endif //P_FOOTPRINTS
+#if OW_POKEMON_OBJECT_EVENTS
+    const u32 gObjectEventPic_Malevon[] = INCGFX_COMP("graphics/pokemon/malevon/overworld.png", ".4bpp", "-mwidth 4 -mheight 4");
+#if OW_PKMN_OBJECTS_SHARE_PALETTES == FALSE
+    const u16 gOverworldPalette_Malevon[] = INCGFX_U16("graphics/pokemon/malevon/overworld_normal.pal", ".gbapal");
+    const u16 gShinyOverworldPalette_Malevon[] = INCGFX_U16("graphics/pokemon/malevon/overworld_shiny.pal", ".gbapal");
+#endif //OW_PKMN_OBJECTS_SHARE_PALETTES
+#endif //OW_POKEMON_OBJECT_EVENTS
+#endif //P_FAMILY_CANDRIS  
 
     const u32 gMonFrontPic_Egg[] = INCGFX_U32("graphics/pokemon/egg/anim_front.png", ".4bpp.smol");
     const u16 gMonPalette_Egg[] = INCGFX_U16("graphics/pokemon/egg/normal.pal", ".gbapal");

@@ -22116,6 +22116,28 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_MalignantChain,
     },
 
+    //Славора
+    [MOVE_HELLFIRE_BASH] =
+{
+    .name = COMPOUND_STRING("Hellfire Bash"),
+    .description = COMPOUND_STRING(
+        "Deals more damage for each\n"
+        "fallen ally. May burn."),
+    .effect = EFFECT_HELLFIRE_BASH,
+    .power = 75,
+    .type = TYPE_FIRE,
+    .accuracy = 100,
+    .pp = 10,
+    .target = TARGET_SELECTED,
+    .priority = 0,
+    .category = DAMAGE_CATEGORY_PHYSICAL,
+    .makesContact = TRUE,
+    .additionalEffects = ADDITIONAL_EFFECTS({
+        .moveEffect = MOVE_EFFECT_BURN,
+        .chance = 10,
+    }),
+    .battleAnimScript = gBattleAnimMove_FlareBlitz,
+},
     // Z-Moves
     [MOVE_BREAKNECK_BLITZ] =
     {

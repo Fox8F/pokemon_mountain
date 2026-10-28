@@ -8745,6 +8745,18 @@ Cry_Candris::
 .if TESTING == FALSE
 	.incbin "sound/direct_sound_samples/cries/candris.bin"
 .endif
+
+	.align 2
+Cry_Osspyre::
+.if TESTING == FALSE
+	.incbin "sound/direct_sound_samples/cries/osspyre.bin"
+.endif
+
+	.align 2
+Cry_Malevon::
+.if TESTING == FALSE
+	.incbin "sound/direct_sound_samples/cries/malevon.bin"
+.endif
 .endif @ P_FAMILY_CANDRIS
 .endif @ P_CRIES_ENABLED
 

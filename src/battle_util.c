@@ -6442,6 +6442,9 @@ static inline u32 CalcMoveBasePower(struct DamageContext *ctx)
     case EFFECT_LAST_RESPECTS:
         basePower += (basePower * min(100, gBattleStruct->faintCounter[GetBattlerTrainer(battlerAtk)]));
         break;
+    case EFFECT_HELLFIRE_BASH:
+        basePower += 25 * gBattleStruct->faintCounter[GetBattlerTrainer(battlerAtk)];
+    break;
     case EFFECT_SPECIES_POWER_OVERRIDE:
         if (gBattleMons[battlerAtk].species == GetMoveSpeciesPowerOverride_Species(ctx->move))
             basePower = GetMoveSpeciesPowerOverride_Power(ctx->move);

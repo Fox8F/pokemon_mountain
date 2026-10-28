@@ -2554,6 +2554,8 @@ gCryTable::
 .endif @ P_FAMILY_PECHARUNT
 .if P_FAMILY_CANDRIS == TRUE
         cry Cry_Candris
+		cry Cry_Osspyre
+		cry Cry_Malevon
 .endif @ P_FAMILY_CANDRIS
 .endif @ P_CRIES_ENABLED
 
@@ -5113,5 +5115,7 @@ gCryTable_Reverse::
 .endif @ P_FAMILY_PECHARUNT
 .if P_FAMILY_CANDRIS == TRUE
 	cry_reverse Cry_Candris
+	cry_reverse Cry_Osspyre
+	cry_reverse Cry_Malevon
 .endif @ P_FAMILY_CANDRIS
 .endif @ P_CRIES_ENABLED
